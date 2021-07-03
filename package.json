@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --pretty --transpile-only src/app.ts",
-    "start": "ts-node dist/app.js",
-    "build": "tsc -p ."
+    "start": "node dist/app.js",
+    "build": "babel src --out-dir dist --no-copy-ignored"
   },
   "license": "MIT",
   "dependencies": {
