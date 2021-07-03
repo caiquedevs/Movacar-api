@@ -1,6 +1,3 @@
-import * as dotenv from "dotenv";
-dotenv.config();
-
 export default {
   development: {
     client: "sqlite3",
@@ -14,34 +11,24 @@ export default {
   },
 
   staging: {
-    client: "postgresql",
+    client: "sqlite3",
     connection: {
-      database: "my_db",
-      user: "username",
-      password: "password",
-    },
-    pool: {
-      min: 2,
-      max: 10,
+      filename: "./dist/database/db.sqlite",
     },
     migrations: {
-      tableName: "knex_migrations",
+      directory: "./dist/database/migrations",
     },
+    useNullAsDefault: true,
   },
 
   production: {
-    client: "postgresql",
+    client: "sqlite3",
     connection: {
-      database: "my_db",
-      user: "username",
-      password: "password",
-    },
-    pool: {
-      min: 2,
-      max: 10,
+      filename: "./dist/database/db.sqlite",
     },
     migrations: {
-      tableName: "knex_migrations",
+      directory: "./dist/database/migrations",
     },
+    useNullAsDefault: true,
   },
 };
