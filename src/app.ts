@@ -6,7 +6,7 @@ import cors from "cors";
 const app = express();
 dotenv.config();
 
-app.use(cors({ origin: "https://movacar.netlify.app/" }));
+app.use(cors({ origin: "https://movacar.netlify.app" }));
 routes(app);
 
 app.get("/", (req, res) => {
