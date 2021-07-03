@@ -13,10 +13,10 @@ export default {
   staging: {
     client: "sqlite3",
     connection: {
-      filename: "./dist/database/db.sqlite",
+      filename: "./src/database/db.sqlite",
     },
     migrations: {
-      directory: "./dist/database/migrations",
+      directory: "./src/database/migrations",
     },
     useNullAsDefault: true,
   },
@@ -24,10 +24,10 @@ export default {
   production: {
     client: "sqlite3",
     connection: {
-      filename: "./dist/database/db.sqlite",
+      filename: "./src/database/db.sqlite",
     },
     migrations: {
-      directory: "./dist/database/migrations",
+      directory: "./src/database/migrations",
     },
     useNullAsDefault: true,
   },
