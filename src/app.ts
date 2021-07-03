@@ -4,7 +4,6 @@ import routes from "./routes";
 import cors from "cors";
 
 const app = express();
-const port = 3333;
 dotenv.config();
 
 app.use(cors());
@@ -14,7 +13,9 @@ app.get("/", (req, res) => {
   res.json("Movacar API");
 });
 
-app.listen(process.env.PORT || 8000, () => {
+const port = process.env.PORT;
+
+app.listen(process.env.PORT, () => {
   console.log("-----------------------------------------------------");
   console.log(` Servidor ativo com sucesso em: http://localhost:${port}`);
   console.log("-----------------------------------------------------");
