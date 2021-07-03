@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "dev": "ts-node-dev --respawn --pretty --transpile-only src/app.ts",
-    "start": "node dist/app.js",
-    "build": "tsc"
+    "start": "node dist/app.js"
   },
   "license": "MIT",
   "dependencies": {
