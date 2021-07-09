@@ -49,4 +49,17 @@ export default class DriverController {
   static async delete(req: any, res: any) {
     return res.json({ msg: "DELETE" });
   }
+
+  static async filter(req: any, res: any) {
+    const { value } = req.query;
+
+    try {
+      const allDrivers = await connection("drivers")
+        .select("*")
+        .where("contact", value);
+      return res.status(200).json(allDrivers);
+    } catch (error) {
+      return res.status(404).json({ msg: "Ocorreu um erro inesperado" });
+    }
+  }
 }
