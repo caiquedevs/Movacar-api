@@ -61,4 +61,17 @@ export default class TravelController {
   static async delete(req: any, res: any) {
     return res.json({ msg: "DELETE" });
   }
+
+  static async filterByDriver(req: any, res: any) {
+    const { id_driver } = req.query;
+
+    try {
+      const travels = await connection("travels")
+        .select("*")
+        .where("id_driver", id_driver);
+      return res.status(200).json(travels);
+    } catch (error) {
+      return res.status(404).json({ msg: "Ocorreu um erro inesperado" });
+    }
+  }
 }
