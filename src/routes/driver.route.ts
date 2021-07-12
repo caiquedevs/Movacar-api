@@ -6,8 +6,8 @@ const router = Router();
 // Drivers
 router.get("/drivers", DriverController.index);
 router.post("/driver", DriverController.create);
-router.put("/driver/:user_id", DriverController.update);
-router.delete("/driver/:user_id", DriverController.delete);
+router.put("/driver/:driverId", DriverController.update);
+router.delete("/driver/:driverId", DriverController.delete);
 
 // Filter
 router.get("/driverByFilter", DriverController.filter);
