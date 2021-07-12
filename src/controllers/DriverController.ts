@@ -12,21 +12,25 @@ export default class DriverController {
   }
 
   static async create(req: any, res: any) {
-    try {
-      const { name, contact, cpf, entrance, exit, pin } = req.body;
-      const driverId = crypto.randomBytes(5).toString("hex");
-      const payload = {
-        id_driver: driverId,
-        name,
-        contact,
-        cpf,
-        entrance,
-        exit,
-        pin,
-      };
+    const { cell, cpf } = req.body;
 
+    const payload = {
+      cell,
+      cpf,
+      travels: req.body.travels,
+      rating: req.body.rating,
+      name: req.body.name,
+      type: req.body.type,
+      about: req.body.about,
+      networks: req.body.networks,
+      vehicle: req.body.vehicle,
+      vehicleYear: req.body.vehicleYear,
+      status: req.body.status,
+    };
+
+    try {
       const checksExistence = await connection("drivers")
-        .where("contact", contact)
+        .where("cell", cell)
         .orWhere("cpf", cpf)
         .first();
 
@@ -43,11 +47,37 @@ export default class DriverController {
   }
 
   static async update(req: any, res: any) {
-    return res.json({ msg: "UPDATE" });
+    const { driverId } = req.params;
+
+    const payload = {
+      travels: req.body.travels,
+      rating: req.body.rating,
+      name: req.body.name,
+      type: req.body.type,
+      about: req.body.about,
+      networks: req.body.networks,
+      vehicle: req.body.vehicle,
+      vehicleYear: req.body.vehicleYear,
+      status: req.body.status,
+    };
+
+    try {
+      await connection("drivers").where("driverId", driverId).update(payload);
+      return res.status(200).json(payload);
+    } catch (error) {
+      console.log("ERRO AQUI", error);
+      return res.status(404).json({ msg: "Ocorreu um erro inesperado" });
+    }
   }
 
   static async delete(req: any, res: any) {
-    return res.json({ msg: "DELETE" });
+    const { driverId } = req.params;
+    try {
+      await connection("drivers").where("driverId", driverId).delete();
+      return res.status(200).json(driverId);
+    } catch (e) {
+      return res.status(404).json({ msg: "Ocorreu um erro inesperado" });
+    }
   }
 
   static async filter(req: any, res: any) {
@@ -56,7 +86,7 @@ export default class DriverController {
     try {
       const allDrivers = await connection("drivers")
         .select("*")
-        .where("contact", value);
+        .where("cell", value);
       return res.status(200).json(allDrivers);
     } catch (error) {
       return res.status(404).json({ msg: "Ocorreu um erro inesperado" });

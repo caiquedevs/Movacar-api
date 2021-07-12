@@ -1,4 +1,3 @@
-import crypto from "crypto";
 import connection from "../database/connection";
 
 export default class TravelController {
@@ -12,41 +11,26 @@ export default class TravelController {
   }
 
   static async create(req: any, res: any) {
+    const payload = {
+      postalCode: req.body.postalCode,
+      address: req.body.address,
+      number: req.body.number,
+      complement: req.body.complement,
+      city: req.body.city,
+      state: req.body.state,
+      date: req.body.date,
+      hour: req.body.hour,
+      clientName: req.body.clientName,
+      clientCPF: req.body.clientCPF,
+      valueReceive: req.body.valueReceive,
+      description: req.body.description,
+      driverName: req.body.driverName,
+      companyId: req.body.companyId,
+      userId: req.body.userId,
+      driverId: req.body.driverId,
+    };
+
     try {
-      const {
-        pin,
-        address,
-        number: numberAddress,
-        description,
-        date,
-        hour,
-        cep,
-        city,
-        state,
-        id_driver,
-        name_driver,
-      } = req.body;
-
-      const travelId = crypto.randomBytes(8).toString("hex");
-      const dateNow = new Date();
-
-      const payload = {
-        id_travel: travelId,
-        created: dateNow,
-        status: "pending",
-        description,
-        name_driver,
-        id_driver,
-        address,
-        number: numberAddress,
-        state,
-        date,
-        hour,
-        city,
-        pin,
-        cep,
-      };
-
       await connection("travels").insert(payload);
       return res.status(201).json(payload);
     } catch (error) {
@@ -55,20 +39,52 @@ export default class TravelController {
   }
 
   static async update(req: any, res: any) {
-    return res.json({ msg: "UPDATE" });
+    const { travelId } = req.params;
+
+    const payload = {
+      postalCode: req.body.postalCode,
+      address: req.body.address,
+      number: req.body.number,
+      complement: req.body.complement,
+      city: req.body.city,
+      state: req.body.state,
+      date: req.body.date,
+      hour: req.body.hour,
+      clientName: req.body.clientName,
+      clientCPF: req.body.clientCPF,
+      valueReceive: req.body.valueReceive,
+      description: req.body.description,
+      driverName: req.body.driverName,
+      driverId: req.body.driverId,
+    };
+
+    try {
+      await connection("travels").where("travelId", travelId).update(payload);
+
+      return res.status(200).json(payload);
+    } catch (error) {
+      console.log("ERRO AQUI", error);
+      return res.status(404).json({ msg: "Ocorreu um erro inesperado" });
+    }
   }
 
   static async delete(req: any, res: any) {
-    return res.json({ msg: "DELETE" });
+    const { travelId } = req.params;
+    try {
+      await connection("travels").where("companyId", travelId).delete();
+      return res.status(200).json(travelId);
+    } catch (e) {
+      return res.status(404).json({ msg: "Ocorreu um erro inesperado" });
+    }
   }
 
   static async filterByDriver(req: any, res: any) {
-    const { id_driver } = req.query;
+    const { driverId } = req.query;
 
     try {
       const travels = await connection("travels")
         .select("*")
-        .where("id_driver", id_driver);
+        .where("driverId", driverId);
       return res.status(200).json(travels);
     } catch (error) {
       return res.status(404).json({ msg: "Ocorreu um erro inesperado" });
